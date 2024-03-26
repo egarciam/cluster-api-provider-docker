@@ -38,6 +38,8 @@ import (
 	infrav1 "github.com/egarciam/cluster-api-provider-docker/api/v1alpha1"
 	"github.com/egarciam/cluster-api-provider-docker/internal/controller"
 	"github.com/egarciam/cluster-api-provider-docker/pkg/container"
+	"sigs.k8s.io/cluster-api/controllers/remote"
+	my_controller "sigs.k8s.io/controller-runtime/pkg/controller"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -133,6 +135,30 @@ func main() {
 		os.Exit(1)
 	}
 
+	log := ctrl.Log.WithName("remote").WithName("ClusterCacheTracker")
+	tracker, err := remote.NewClusterCacheTracker(
+		mgr,
+		remote.ClusterCacheTrackerOptions{
+			Log: &log,
+			//Indexes: remote.DefaultIndexes,
+		},
+	)
+
+	if err != nil {
+		setupLog.Error(err, "unable to create cluster cache tracker")
+		os.Exit(1)
+	}
+
+	if err := (&remote.ClusterCacheReconciler{
+		Client:  mgr.GetClient(),
+		Tracker: tracker,
+	}).SetupWithManager(ctx, mgr, my_controller.Options{
+		MaxConcurrentReconciles: 10,
+	}); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ClusterCacheReconciler")
+		os.Exit(1)
+	}
+
 	if err = (&controller.DockerClusterReconciler{
 		Client:           mgr.GetClient(),
 		Scheme:           mgr.GetScheme(),
@@ -142,8 +168,10 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controller.DockerMachineReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
+		Client:           mgr.GetClient(),
+		ContainerRuntime: runtimeClient,
+		//Scheme:           mgr.GetScheme(),
+		Tracker: tracker,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "DockerMachine")
 		os.Exit(1)

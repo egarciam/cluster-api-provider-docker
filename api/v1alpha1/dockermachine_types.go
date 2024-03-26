@@ -18,24 +18,56 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+
+const (
+	// MachineFinalizer allows cleaning up resources associated with
+	// DockerMachine before removing it from the API Server.
+	MachineFinalizer = "dockermachine.infrastructure.cluster.x-k8s.io"
+)
 
 // DockerMachineSpec defines the desired state of DockerMachine
 type DockerMachineSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of DockerMachine. Edit dockermachine_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// ProviderID is the identifier for the DockerMachine instance
+	ProviderID *string `json:"providerID,omitempty"`
+
+	// CustomImage allows customizing the container image that is used for
+	// running the machine
+	// +optional
+	CustomImage string `json:"customImage,omitempty"`
+
+	// Bootstrapped is true when the kubeadm bootstrapping has been run
+	// against this machine
+	// +optional
+	Bootstrapped bool `json:"bootstrapped,omitempty"`
 }
 
 // DockerMachineStatus defines the observed state of DockerMachine
 type DockerMachineStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	// +optional
+	Ready bool `json:"ready"`
+
+	//Conditions. estado actual del servicio
+	// +optional
+	Conditions clusterv1.Conditions `json:"conditions,omitempty"`
+
+	// LoadBalancerConfigured denotes that the machine has been
+	// added to the load balancer
+	// +optional
+	LoadBalancerConfigured bool `json:"loadBalancerConfigured"`
+
+	// Addresses contains the associated addresses for the docker machine.
+	// +optional
+	Addresses []clusterv1.MachineAddress `json:"addresses,omitempty"`
 }
 
 //+kubebuilder:object:root=true
@@ -77,4 +109,14 @@ type Mount struct {
 
 func init() {
 	SchemeBuilder.Register(&DockerMachine{}, &DockerMachineList{})
+}
+
+// GetConditions returns the conditions of ByoMachine status
+func (dockerMachine *DockerMachine) GetConditions() clusterv1.Conditions {
+	return dockerMachine.Status.Conditions
+}
+
+// SetConditions sets the conditions of ByoMachine status
+func (dockerMachine *DockerMachine) SetConditions(conditions clusterv1.Conditions) {
+	dockerMachine.Status.Conditions = conditions
 }
