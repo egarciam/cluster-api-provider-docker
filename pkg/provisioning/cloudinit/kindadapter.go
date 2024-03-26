@@ -25,7 +25,7 @@ import (
 	"github.com/pkg/errors"
 	"sigs.k8s.io/yaml"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/provisioning"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/provisioning"
 )
 
 const (

@@ -23,7 +23,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/provisioning"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/provisioning"
 )
 
 func TestWriteFiles(t *testing.T) {

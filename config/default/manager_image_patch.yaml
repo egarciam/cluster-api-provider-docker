@@ -7,5 +7,5 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/capi-samples/cluster-api-provider-docker:dev
+      - image: ghcr.io/egarciam/cluster-api-provider-docker:dev
         name: manager

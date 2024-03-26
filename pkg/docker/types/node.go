@@ -28,7 +28,7 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/container"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/container"
 )
 
 // Node can be thought of as a logical component of Kubernetes.

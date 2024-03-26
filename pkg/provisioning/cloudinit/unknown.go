@@ -21,7 +21,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/provisioning"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/provisioning"
 )
 
 type unknown struct {

@@ -22,7 +22,7 @@ import (
 	"github.com/pkg/errors"
 	"sigs.k8s.io/yaml"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/provisioning"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/provisioning"
 )
 
 // runCmd defines parameters of a shell command that is equivalent to an action found in the cloud init rundcmd module.

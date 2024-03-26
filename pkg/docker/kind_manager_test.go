@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/kind/pkg/apis/config/v1alpha4"
 	"sigs.k8s.io/kind/pkg/cluster/constants"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/container"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/container"
 	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
 )
 

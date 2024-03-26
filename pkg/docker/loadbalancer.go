@@ -25,10 +25,10 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/kind/pkg/cluster/constants"
 
-	infrav1 "github.com/capi-samples/cluster-api-provider-docker/api/v1alpha1"
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/container"
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/docker/types"
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/loadbalancer"
+	infrav1 "github.com/egarciam/cluster-api-provider-docker/api/v1alpha1"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/container"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/docker/types"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/loadbalancer"
 	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
 )
 

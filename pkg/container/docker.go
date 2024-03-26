@@ -36,6 +36,8 @@ import (
 	"github.com/docker/go-connections/nat"
 	"github.com/pkg/errors"
 
+	//"github.com/docker/docker/api/types/"
+
 	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
 )
 
@@ -257,7 +259,7 @@ func (d *dockerRuntime) ExecContainer(ctxd context.Context, containerName string
 
 // ListContainers returns a list of all containers.
 func (d *dockerRuntime) ListContainers(ctx context.Context, filters FilterBuilder) ([]Container, error) {
-	listOptions := types.ContainerListOptions{
+	listOptions := dockercontainer.ListOptions{
 		All:     true,
 		Limit:   -1,
 		Filters: dockerfilters.NewArgs(),
@@ -292,7 +294,7 @@ func (d *dockerRuntime) ListContainers(ctx context.Context, filters FilterBuilde
 
 // DeleteContainer will remove a container, forcing removal if still running.
 func (d *dockerRuntime) DeleteContainer(ctx context.Context, containerName string) error {
-	return d.dockerClient.ContainerRemove(ctx, containerName, types.ContainerRemoveOptions{
+	return d.dockerClient.ContainerRemove(ctx, containerName, dockercontainer.RemoveOptions{
 		Force:         true, // force the container to be delete now
 		RemoveVolumes: true, // delete volumes
 	})
@@ -329,7 +331,7 @@ func (d *dockerRuntime) ContainerDebugInfo(ctx context.Context, containerName st
 	fmt.Fprintln(w, "Inspected the container:")
 	fmt.Fprintf(w, "%+v\n", containerInfo)
 
-	options := types.ContainerLogsOptions{
+	options := dockercontainer.LogsOptions{
 		ShowStdout: true,
 		ShowStderr: true,
 	}
@@ -447,7 +449,7 @@ func (d *dockerRuntime) RunContainer(ctx context.Context, runConfig *RunContaine
 	var containerOutput types.HijackedResponse
 	if output != nil {
 		// Read out any output from the container
-		attachOpts := types.ContainerAttachOptions{
+		attachOpts := dockercontainer.AttachOptions{
 			Stream: true,
 			Stdin:  false,
 			Stdout: true,
@@ -462,7 +464,7 @@ func (d *dockerRuntime) RunContainer(ctx context.Context, runConfig *RunContaine
 	}
 
 	// Actually start the container
-	if err := d.dockerClient.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{}); err != nil {
+	if err := d.dockerClient.ContainerStart(ctx, resp.ID, dockercontainer.StartOptions{}); err != nil {
 		return errors.Wrapf(err, "error starting container %q", runConfig.Name)
 	}
 

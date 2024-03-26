@@ -22,7 +22,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/container"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/container"
 )
 
 func TestIP(t *testing.T) {

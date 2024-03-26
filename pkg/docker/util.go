@@ -23,8 +23,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/container"
-	"github.com/capi-samples/cluster-api-provider-docker/pkg/docker/types"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/container"
+	"github.com/egarciam/cluster-api-provider-docker/pkg/docker/types"
 )
 
 const (
