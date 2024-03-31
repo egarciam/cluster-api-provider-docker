@@ -2,4 +2,5 @@
 resources:
 - infrastructure_v1alpha1_dockercluster.yaml
 - infrastructure_v1alpha1_dockermachine.yaml
+- infrastructure_v1alpha1_dockermachinetemplate.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples
