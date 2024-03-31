@@ -35,11 +35,13 @@ import (
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
+	"sigs.k8s.io/cluster-api/controllers/remote"
+	my_controller "sigs.k8s.io/controller-runtime/pkg/controller"
+
+	infrastructurev1alpha1 "github.com/egarciam/cluster-api-provider-docker/api/v1alpha1"
 	infrav1 "github.com/egarciam/cluster-api-provider-docker/api/v1alpha1"
 	"github.com/egarciam/cluster-api-provider-docker/internal/controller"
 	"github.com/egarciam/cluster-api-provider-docker/pkg/container"
-	"sigs.k8s.io/cluster-api/controllers/remote"
-	my_controller "sigs.k8s.io/controller-runtime/pkg/controller"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -52,6 +54,7 @@ func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 	utilruntime.Must(clusterv1.AddToScheme(scheme))
 	utilruntime.Must(infrav1.AddToScheme(scheme))
+	utilruntime.Must(infrastructurev1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
