@@ -1,5 +1,5 @@
 # Build the manager binary
-FROM golang:1.21 AS builder
+FROM golang:1.22 AS builder
 ARG TARGETOS
 ARG TARGETARCH
 
@@ -15,6 +15,7 @@ RUN go mod download
 COPY cmd/main.go cmd/main.go
 COPY api/ api/
 COPY internal/controller/ internal/controller/
+COPY pkg/ pkg/
 
 # Build
 # the GOARCH has not a default value to allow the binary be built according to the host where the command
@@ -26,6 +27,8 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -a -o ma
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM gcr.io/distroless/static:nonroot
+LABEL org.opencontainers.image.source=https://github.com/egarciam/cluster-api-provider-docker
+
 WORKDIR /
 COPY --from=builder /workspace/manager .
 USER 65532:65532
