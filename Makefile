@@ -1,8 +1,20 @@
 
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+TAG ?= dev
+REGISTRY ?= ghcr.io
+ORG ?= egarciam
+CONTROLLER_IMAGE_NAME := cluster-api-provider-docker
+IMG ?= $(REGISTRY)/$(ORG)/$(CONTROLLER_IMAGE_NAME):$(TAG)
+# IMG ?= controller:latest
+
+
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
 ENVTEST_K8S_VERSION = 1.29.0
+
+# Releasing
+ORG ?= yayienv-inc
+CONTROLLER_IMAGE_NAME := cluster-api-provider-docker
+
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
